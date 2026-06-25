@@ -10,7 +10,7 @@ require('dotenv').config();
 const app = express();              
 const server = http.createServer(app); 
 
-app.use(cors());
+app.use(cors({origin:"*"}));
 // NAYA: Express ko JSON data samajhne ke liye allow karna
 app.use(express.json()); 
 
