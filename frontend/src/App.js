@@ -11,7 +11,7 @@ import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 
-const socket = io('http://127.0.0.1:5000');
+const socket = io('https://secure-zoom-clone.onrender.com');
 
 function App() {
   const [inMeeting, setInMeeting] = useState(false);
