@@ -16,7 +16,7 @@ app.use(cors({origin:"*",
 }));
 // NAYA: Express ko JSON data samajhne ke liye allow karna
 app.use(express.json()); 
-const mongoose = require('mongoose');
+
 const DB_URI = "mongodb+srv://vishalcse001:Vishal%4020775089@cluster0.mwfukwh.mongodb.net/zoom-clone?retryWrites=true&w=majority";
 
 mongoose.connect(DB_URI)
