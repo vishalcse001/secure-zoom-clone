@@ -38,7 +38,7 @@ function App() {
 
   const handleCreateMeeting = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/meeting/create', { meetingId: roomAuthId, password: roomPassword });
+      const response = await axios.post('https://secure-zoom-clone.onrender.com/api/meeting/create', { meetingId: roomAuthId, password: roomPassword });
       alert(response.data.message); 
       setInMeeting(true); 
       startMedia(); 
