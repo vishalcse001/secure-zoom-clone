@@ -75,6 +75,14 @@ function App() {
       setCallerSignal(data.signal);
     });
 
+   // App.js ke useEffect( () => { ... }, []) ke andar jahan socket connections hain
+
+socket.on('callEnded', () => {
+  alert("The other person has left the meeting.");
+  // Apna page reload kar lo taaki aap bhi home screen par aa jao
+  window.location.reload();
+});
+
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true);
       if (peerRef.current) peerRef.current.setRemoteDescription(new RTCSessionDescription(signal));
@@ -106,6 +114,15 @@ function App() {
       setIsVideoOn(videoTrack.enabled);
     }
   };
+  const leaveCall = () => {
+  // Camera aur mic ke saare tracks ko completely stop karna
+  if (stream) {
+    stream.getTracks().forEach((track) => track.stop());
+  }
+  
+  // Page ko refresh kar dena taaki user wapas home screen par aa jaye
+  window.location.reload();
+};
 
   // 3. NAYA LOGIC: Screen Share on/off karna
   const toggleScreenShare = async () => {
@@ -259,6 +276,7 @@ function App() {
                 <video playsInline muted ref={myVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #333', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(0,0,0,0.2)' }} />
                 
                 {/* 4. NAYA LOGIC: Screen Share Button Add Kiya */}
+                {/* 4. NAYA LOGIC: Screen Share Button Add Kiya */}
                 <Box sx={{ marginTop: '15px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <Button variant="contained" color={isMicOn ? "success" : "error"} onClick={toggleMic} startIcon={isMicOn ? <MicIcon /> : <MicOffIcon />}>
                     {isMicOn ? 'Mute' : 'Unmute'}
@@ -268,6 +286,11 @@ function App() {
                   </Button>
                   <Button variant="contained" color={isScreenSharing ? "error" : "secondary"} onClick={toggleScreenShare} startIcon={isScreenSharing ? <StopScreenShareIcon /> : <ScreenShareIcon />}>
                     {isScreenSharing ? 'Stop Screen' : 'Share Screen'}
+                  </Button>
+                  
+                  {/* 5. NAYA: End Call Button Yahan Add Hua Hai */}
+                  <Button variant="contained" color="error" onClick={leaveCall}>
+                    End Call
                   </Button>
                 </Box>
               </Grid>

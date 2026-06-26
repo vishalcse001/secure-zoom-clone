@@ -83,6 +83,12 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log('New connection established. Socket ID:', socket.id);
+  // index.js (io.on('connection', (socket) => { ... } ke andar)
+
+socket.on('endCall', ({ to }) => {
+  // Dusre bande ko message bhejo ki samne wale ne call cut kar di hai
+  io.to(to).emit('callEnded');
+});
 
   socket.on('callUser', ({ userToCall, signalData, from, name }) => {
     io.to(userToCall).emit('callUser', { signal: signalData, from, name });
