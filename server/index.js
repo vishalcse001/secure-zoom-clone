@@ -15,14 +15,15 @@ app.use(cors({origin:"*",
     credentials:true
 }));
 // NAYA: Express ko JSON data samajhne ke liye allow karna
-app.use(express.json()); 
+//NAYA: Express ko JSON data samajhne ke liye allow karna
+app.use(express.json());
 
-const DB_URI = "mongodb+srv://vishalcse001:Vishal%4020775089@cluster0.mwfukwh.mongodb.net/zoom-clone?retryWrites=true&w=majority";
-
-mongoose.connect(DB_URI)
-  .then(() => console.log('MongoDB is securely connected! ATLES'))
+// Seedha .env file se connection string uthana
+mongoose.connect(process.env.MONGO_URI, {
+  family: 4 // NAYA: Ye Node.js ko strictly IPv4 use karne ko bolega jisse DNS bypass ho sakta hai
+})
+  .then(() => console.log('MongoDB is securely connected! ATLAS'))
   .catch((err) => console.error('MongoDB connection error:', err));
-
 
 // ==========================================
 // API ROUTES (NAYA LOGIC)
