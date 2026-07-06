@@ -163,19 +163,44 @@ function App() {
   const flipCamera = async () => {
     try {
       const newFacingMode = isFrontCam ? "environment" : "user";
-      const newStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: newFacingMode }, audio: true });
-      if (stream) { stream.getVideoTracks().forEach(track => track.stop()); }
-      if (myVideo.current) { myVideo.current.srcObject = newStream; }
-      if (peerRef.current) {
-        const newVideoTrack = newStream.getVideoTracks()[0];
-        const sender = peerRef.current.getSenders().find(s => s.track.kind === 'video');
-        if (sender) { sender.replaceTrack(newVideoTrack); }
+      
+      // 1. Sabse pehle chalte hue video track ko STOP karo (Taaki phone ka hardware free ho jaye)
+      if (stream) {
+        const oldVideoTrack = stream.getVideoTracks()[0];
+        if (oldVideoTrack) oldVideoTrack.stop();
       }
-      setStream(newStream);
+
+      // 2. Ab naya camera maango (Dhyan de: yahan sirf video maang rahe hain, audio nahi)
+      const newVideoStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: newFacingMode } 
+      });
+      const newVideoTrack = newVideoStream.getVideoTracks()[0];
+
+      // 3. Purane chalte hue Audio aur naye Video ko mila kar ek naya Stream banao
+      const currentAudioTrack = stream.getAudioTracks()[0];
+      const combinedStream = new MediaStream([newVideoTrack, currentAudioTrack]);
+
+      // 4. Apni local screen par update karo
+      if (myVideo.current) {
+        myVideo.current.srcObject = combinedStream;
+      }
+
+      // 5. WebRTC connection mein dusre bande ko naya video bhejo
+      if (peerRef.current) {
+        const sender = peerRef.current.getSenders().find(s => s.track.kind === 'video');
+        if (sender) {
+          sender.replaceTrack(newVideoTrack);
+        }
+      }
+
+      // 6. Naye stream ko state mein save karo taaki Mute/Camera off buttons sahi se chalte rahein
+      setStream(combinedStream);
       setIsFrontCam(!isFrontCam);
+
     } catch (error) {
       console.error("Camera flip error:", error);
-      alert("Camera flip is mostly supported on mobile phones.");
+      // Ab hum original error dikhayenge taaki exact pata chale agar kuch issue ho
+      alert("Error flipping camera: " + error.message); 
     }
   };
 
