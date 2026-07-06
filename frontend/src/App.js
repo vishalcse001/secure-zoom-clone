@@ -359,7 +359,7 @@ function App() {
                 {callAccepted && (
                   <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h6" sx={{ marginBottom: '10px' }}>Remote Peer</Typography>
-                    <video playsInline ref={userVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #1976d2', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(25, 118, 210, 0.4)', objectFit: 'cover' }} />
+                    <video playsInline ref={userVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #1976d2', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(25, 118, 210, 0.4)', transform: 'scaleX(-1)' }} />
                   </Grid>
                 )}
               </Grid>
