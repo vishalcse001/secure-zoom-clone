@@ -344,7 +344,7 @@ function App() {
                   <Grid item xs={12} md={callAccepted ? 6 : 12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h6" sx={{ marginBottom: '10px' }}>You</Typography>
                     {/* Yahan teri photo ko seedha (mirror) karne ke liye scaleX(-1) lagaya gaya hai */}
-                    <video playsInline muted ref={myVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #333', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(0,0,0,0.2)', objectFit: 'cover', transform: 'scaleX(-1)' }} />
+                    <video playsInline muted ref={myVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #333', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(0,0,0,0.2)', objectFit: 'cover', transform: isFrontCam ? 'scaleX(-1)' : 'none' }} />
                     
                     <Box sx={{ marginTop: '15px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
                       <Button variant="contained" color={isMicOn ? "success" : "error"} onClick={toggleMic} startIcon={isMicOn ? <MicIcon /> : <MicOffIcon />}>{isMicOn ? 'Mute' : 'Unmute'}</Button>
@@ -359,7 +359,7 @@ function App() {
                 {callAccepted && (
                   <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h6" sx={{ marginBottom: '10px' }}>Remote Peer</Typography>
-                    <video playsInline ref={userVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #1976d2', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(25, 118, 210, 0.4)', transform: 'scaleX(-1)' }} />
+                    <video playsInline ref={userVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #1976d2', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(25, 118, 210, 0.4)', objectFit: 'cover' }} />
                   </Grid>
                 )}
               </Grid>
