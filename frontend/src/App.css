@@ -1,0 +1,28 @@
+/* Container jo dono videos ko hold karega */
+.video-split-container {
+  display: flex;
+  flex-direction: row; /* Videos ko left-right lagane ke liye */
+  width: 100vw;
+  height: 100vh;
+  background-color: #111;
+}
+
+/* Dono videos ke liye same style */
+.split-video {
+  flex: 1; /* Dono screen ka 50%-50% hissa lenge */
+  width: 50%;
+  height: 100%;
+  object-fit: cover; /* Video stretch na ho, cover ho jaye */
+  border: 1px solid #333; /* Ek line dono ke beech mein */
+}
+
+/* Agar mobile screen (choti) par dekhein toh upar-neeche (top-bottom) ho jaye */
+@media (max-width: 768px) {
+  .video-split-container {
+    flex-direction: column;
+  }
+  .split-video {
+    width: 100%;
+    height: 50%;
+  }
+}
