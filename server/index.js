@@ -3,8 +3,8 @@ const http = require('http');
 const cors = require('cors');       
 const { Server } = require('socket.io'); 
 const mongoose = require('mongoose'); 
-const bcrypt = require('bcrypt');     // NAYA: Bcrypt import kiya password compare karne ke liye
-const Meeting = require('./models/Meeting'); // NAYA: Apna banaya hua model import kiya
+const bcrypt = require('bcrypt');     
+const Meeting = require('./models/Meeting'); 
 require('dotenv').config();           
 
 const app = express();              
@@ -25,8 +25,6 @@ mongoose.connect(process.env.MONGO_URI, {
   .then(() => console.log('MongoDB is securely connected! ATLAS'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// ==========================================
-// API ROUTES (NAYA LOGIC)
 // ==========================================
 
 // 1. Nayi Meeting Create Karne Ka Route
@@ -83,10 +81,10 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log('New connection established. Socket ID:', socket.id);
-  // index.js (io.on('connection', (socket) => { ... } ke andar)
+  
 
 socket.on('endCall', ({ to }) => {
-  // Dusre bande ko message bhejo ki samne wale ne call cut kar di hai
+  
   io.to(to).emit('callEnded');
 });
 

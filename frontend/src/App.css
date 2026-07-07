@@ -1,22 +1,19 @@
-/* Container jo dono videos ko hold karega */
 .video-split-container {
   display: flex;
-  flex-direction: row; /* Videos ko left-right lagane ke liye */
+  flex-direction: row; 
   width: 100vw;
   height: 100vh;
   background-color: #111;
 }
 
-/* Dono videos ke liye same style */
 .split-video {
-  flex: 1; /* Dono screen ka 50%-50% hissa lenge */
+  flex: 1; 
   width: 50%;
   height: 100%;
-  object-fit: cover; /* Video stretch na ho, cover ho jaye */
-  border: 1px solid #333; /* Ek line dono ke beech mein */
+  object-fit: cover; 
+  border: 1px solid #333; 
 }
 
-/* Agar mobile screen (choti) par dekhein toh upar-neeche (top-bottom) ho jaye */
 @media (max-width: 768px) {
   .video-split-container {
     flex-direction: column;

@@ -10,7 +10,7 @@ import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
-import SendIcon from '@mui/icons-material/Send'; // 1. Chat send button ke liye naya icon
+import SendIcon from '@mui/icons-material/Send'; 
 
 const socket = io('https://secure-zoom-clone.onrender.com');
 
@@ -164,28 +164,24 @@ function App() {
     try {
       const newFacingMode = isFrontCam ? "environment" : "user";
       
-      // 1. Sabse pehle chalte hue video track ko STOP karo (Taaki phone ka hardware free ho jaye)
+  
       if (stream) {
         const oldVideoTrack = stream.getVideoTracks()[0];
         if (oldVideoTrack) oldVideoTrack.stop();
       }
 
-      // 2. Ab naya camera maango (Dhyan de: yahan sirf video maang rahe hain, audio nahi)
       const newVideoStream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: newFacingMode } 
       });
       const newVideoTrack = newVideoStream.getVideoTracks()[0];
 
-      // 3. Purane chalte hue Audio aur naye Video ko mila kar ek naya Stream banao
       const currentAudioTrack = stream.getAudioTracks()[0];
       const combinedStream = new MediaStream([newVideoTrack, currentAudioTrack]);
 
-      // 4. Apni local screen par update karo
       if (myVideo.current) {
         myVideo.current.srcObject = combinedStream;
       }
 
-      // 5. WebRTC connection mein dusre bande ko naya video bhejo
       if (peerRef.current) {
         const sender = peerRef.current.getSenders().find(s => s.track.kind === 'video');
         if (sender) {
@@ -193,13 +189,12 @@ function App() {
         }
       }
 
-      // 6. Naye stream ko state mein save karo taaki Mute/Camera off buttons sahi se chalte rahein
       setStream(combinedStream);
       setIsFrontCam(!isFrontCam);
 
     } catch (error) {
       console.error("Camera flip error:", error);
-      // Ab hum original error dikhayenge taaki exact pata chale agar kuch issue ho
+    
       alert("Error flipping camera: " + error.message); 
     }
   };
@@ -208,13 +203,12 @@ function App() {
   const handleSendMessage = () => {
     if (message.trim() === '') return;
     
-    // Agar connection ready hai, toh dusre bande ko WebRTC se message bhejo
+    
     if (dataChannelRef.current && dataChannelRef.current.readyState === 'open') {
       dataChannelRef.current.send(message);
       
-      // Khud ki screen par bhi message show karo
       setChatMessages((prev) => [...prev, { sender: 'You', text: message }]);
-      setMessage(''); // Input box khali kar do
+      setMessage('');
     } else {
       alert("Please wait for the call to connect before sending messages.");
     }
@@ -343,7 +337,7 @@ function App() {
                 {stream && (
                   <Grid item xs={12} md={callAccepted ? 6 : 12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h6" sx={{ marginBottom: '10px' }}>You</Typography>
-                    {/* Yahan teri photo ko seedha (mirror) karne ke liye scaleX(-1) lagaya gaya hai */}
+          
                     <video playsInline muted ref={myVideo} autoPlay style={{ width: '100%', borderRadius: '15px', border: '3px solid #333', backgroundColor: 'black', boxShadow: '0px 4px 15px rgba(0,0,0,0.2)', objectFit: 'cover', transform: isFrontCam ? 'scaleX(-1)' : 'none' }} />
                     
                     <Box sx={{ marginTop: '15px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
